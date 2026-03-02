@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "format": "prettier --write ."
   },
   "keywords": [],
@@ -17,6 +20,10 @@
     "nodemon": "^3.1.14"
   },
   "devDependencies": {
-    "prettier": "3.8.1"
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.3",
+    "prettier": "3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }
