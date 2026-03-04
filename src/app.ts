@@ -29,4 +29,9 @@ app.use(
 
 // Note: credentials true and origin "*" is a security risk.
 
+// import Routes
+import healthCheckRouter from "./routes/healthcheck.route.js";
+
+app.use("/api/v1/healthCheck", healthCheckRouter);
+
 export default app;

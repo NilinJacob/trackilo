@@ -1,19 +1,15 @@
-type ApiResponse<T> = {
+class ApiResponse<T> {
   statusCode: number;
   success: boolean;
   message: string;
-  data: T;
-};
+  data: T | null;
 
-export const apiResponse = <T>(
-  statusCode: number,
-  message = "success",
-  data: T,
-): ApiResponse<T> => {
-  return {
-    statusCode,
-    success: statusCode < 400,
-    message,
-    data,
-  };
-};
+  constructor(statusCode: number, data: T | null = null, message = "success") {
+    this.statusCode = statusCode;
+    this.success = statusCode < 400;
+    this.message = message;
+    this.data = data;
+  }
+}
+
+export default ApiResponse;
