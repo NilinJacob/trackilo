@@ -3,8 +3,9 @@ import bcrypt from "bcrypt";
 import jwt, { type Secret } from "jsonwebtoken";
 import type { StringValue } from "ms";
 import crypto from "crypto";
+import type { IUser, IUserMethods, UserModel } from "../utils/allTypes.js";
 
-const userSchema = new Schema(
+const userSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
     avatar: {
       type: {
@@ -107,10 +108,9 @@ userSchema.methods.generateRefreshToken = function () {
 
 userSchema.methods.generateTemporaryToken = function () {
   const unHashedToken = crypto.randomBytes(20).toString("hex");
-
   const hashedToken = crypto.createHash("sha256").update(unHashedToken).digest("hex");
 
-  const tokenExpiry = Date.now() + 20 * 60 * 1000;
+  const tokenExpiry = new Date(Date.now() + 20 * 60 * 1000);
   return { unHashedToken, hashedToken, tokenExpiry };
 };
 
