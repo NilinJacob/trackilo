@@ -1,6 +1,7 @@
 import express from "express";
 import type { Express } from "express";
 import cors from "cors";
+import cookieParser from 'cookie-parser'
 
 const app: Express = express();
 
@@ -13,6 +14,8 @@ app.use(
 
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
+app.use(cookieParser())
+
 
 // cors configurations
 
