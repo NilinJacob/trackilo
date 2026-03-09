@@ -1,3 +1,50 @@
+import Mailgen from "mailgen";
+import type { Content } from "mailgen";
+import nodemailer from "nodemailer";
+import type SMTPTransport from "nodemailer/lib/smtp-transport/index.js";
+
+const mailGenerator = new Mailgen({
+  theme: "default",
+  product: {
+    name: "Trackilo",
+    link: "https://trackilo.in",
+  },
+});
+
+interface SendMailOptions {
+  email: string;
+  subject: string;
+  mailGenContent: Content;
+}
+
+export const sendMail = async (options: SendMailOptions) => {
+  const emailHtml = mailGenerator.generate(options.mailGenContent);
+  const emailText = mailGenerator.generatePlaintext(options.mailGenContent);
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.MAILTRAP_SMTP_HOST,
+    port: Number(process.env.MAILTRAP_SMTP_PORT),
+    auth: {
+      user: process.env.MAILTRAP_SMTP_USER,
+      pass: process.env.MAILTRAP_SMTP_PASS,
+    },
+  } as SMTPTransport.Options);
+
+  const mail = {
+    from: "mail.trackilo@example.com",
+    to: options.email,
+    subject: options.subject,
+    text: emailText,
+    html: emailHtml,
+  };
+
+  try {
+    await transporter.sendMail(mail);
+  } catch (err) {
+    console.error("Email service failed", err);
+  }
+};
+
 export const emailVerficationMessage = (userName: string, verificationUrl: string) => {
   return {
     body: {

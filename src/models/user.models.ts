@@ -38,6 +38,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+      select: false,
     },
     isEmailVerified: {
       type: Boolean,
@@ -45,18 +46,23 @@ const userSchema = new Schema(
     },
     emailVerificationToken: {
       type: String,
+      select: false,
     },
     emailVerificationExpiry: {
       type: Date,
+      select: false,
     },
     refreshToken: {
       type: String,
+      select: false,
     },
     forgotPasswordToken: {
       type: String,
+      select: false,
     },
     forgotPasswordExpiry: {
       type: Date,
+      select: false,
     },
   },
   {
