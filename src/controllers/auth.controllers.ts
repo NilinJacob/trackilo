@@ -57,7 +57,7 @@ export const registerUser = async (req: Request, res: Response) => {
   });
 
   if (!user) {
-    throw new ApiError(500, "Somthing went wrong while registering a user");
+    throw new ApiError(500, "Something went wrong while registering a user");
   }
 
   const safeUser = {
@@ -73,7 +73,7 @@ export const registerUser = async (req: Request, res: Response) => {
     .status(201)
     .json(
       new ApiResponse(
-        200,
+        201,
         safeUser,
         "User registered successfully and verification email sent to your email",
       ),

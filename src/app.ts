@@ -32,7 +32,12 @@ app.use(
 // import Routes
 import healthCheckRouter from "./routes/healthcheck.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
+
 app.use("/api/v1/healthCheck", healthCheckRouter);
 app.use("/api/v1/auth", authRouter);
 
+
+
+app.use(errorMiddleware);
 export default app;
