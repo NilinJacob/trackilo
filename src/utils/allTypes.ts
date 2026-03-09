@@ -1,4 +1,4 @@
-import { Document, Model } from "mongoose";
+import { Model } from "mongoose";
 
 export interface IUser {
   avatar: {
@@ -29,6 +29,5 @@ export interface IUserMethods {
   };
 }
 
-export type UserDocument = Document & IUser & IUserMethods;
 
 export type UserModel = Model<IUser, {}, IUserMethods>;
