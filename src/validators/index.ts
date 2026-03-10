@@ -1,9 +1,7 @@
-import { z } from "zod";
+import { email, z } from "zod";
 
 export const registerValidation = z.object({
-  email: z
-    .string()
-    .email("Invalid email format"),
+  email: z.string().email("Invalid email format"),
 
   password: z
     .string()
@@ -16,4 +14,8 @@ export const registerValidation = z.object({
     .min(3, "Username must be at least 3 characters")
     .max(20, "Username must not exceed 20 characters")
     .trim(),
+});
+
+export const loginValidation = z.object({
+  email: z.string().email("Invalid email format"),
 });
