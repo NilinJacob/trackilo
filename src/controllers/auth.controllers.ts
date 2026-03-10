@@ -132,3 +132,31 @@ export const loginUser: RequestHandler = asyncHandler(
       );
   },
 );
+
+export const logoutUser: RequestHandler = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { _id } = req.user!;
+    await User.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          refreshToken: "",
+        },
+      },
+      {
+        returnDocument: "after",
+      },
+    );
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+
+    return res
+      .status(200)
+      .clearCookie("accessToken", options)
+      .clearCookie("refreshToken", options)
+      .json(new ApiResponse(200, {}, "User logged out"));
+  },
+);

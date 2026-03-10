@@ -1,6 +1,8 @@
 import { Model } from "mongoose";
+import type { Types } from "mongoose";
 
 export interface IUser {
+  _id: Types.ObjectId;
   avatar: {
     url?: string | null;
     localPath?: string | null;
@@ -15,7 +17,7 @@ export interface IUser {
   refreshToken?: string | null;
   forgotPasswordToken?: string | null;
   forgotPasswordExpiry?: Date | null;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface IUserMethods {
@@ -28,6 +30,5 @@ export interface IUserMethods {
     tokenExpiry: Date;
   };
 }
-
 
 export type UserModel = Model<IUser, {}, IUserMethods>;

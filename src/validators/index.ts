@@ -18,4 +18,5 @@ export const registerValidation = z.object({
 
 export const loginValidation = z.object({
   email: z.string().email("Invalid email format"),
+  password: z.string().min(1, "Password is required"),
 });

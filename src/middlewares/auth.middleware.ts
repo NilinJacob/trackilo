@@ -20,7 +20,6 @@ export const verifyJWT: RequestHandler = asyncHandler(
     }
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!) as DecodedTokenProps;
-
     const user = await User.findById(decodedToken._id);
 
     if (!user) {
