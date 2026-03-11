@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import type { Types } from "mongoose";
+import type { Types, HydratedDocument } from "mongoose";
 
 export interface IUser {
   _id: Types.ObjectId;
@@ -31,4 +31,13 @@ export interface IUserMethods {
   };
 }
 
+export type UserDocument = HydratedDocument<IUser, IUserMethods>;
+
 export type UserModel = Model<IUser, {}, IUserMethods>;
+
+
+export interface DecodedTokenProps {
+  _id: Types.ObjectId;
+  email: string;
+  userName?: string;
+}

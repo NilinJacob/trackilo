@@ -3,13 +3,8 @@ import { asyncHandler } from "../utils/async-handler.js";
 import { ApiError } from "../utils/api-error.js";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.models.js";
-import type { Types } from "mongoose";
+import type { DecodedTokenProps } from "../types/allTypes.js";
 
-interface DecodedTokenProps {
-  _id: Types.ObjectId;
-  email: string;
-  userName?: string;
-}
 
 export const verifyJWT: RequestHandler = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
