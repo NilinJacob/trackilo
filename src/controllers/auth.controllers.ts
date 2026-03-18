@@ -8,6 +8,7 @@ import type { Types } from "mongoose";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import type { DecodedTokenProps } from "../types/allTypes.js";
+import { options } from "../utils/utils.js";
 
 const generateAccessandRefreshToken = async (
   userId: Types.ObjectId,
@@ -117,11 +118,6 @@ export const loginUser: RequestHandler = asyncHandler(
 
     const { accessToken, refreshToken } = await generateAccessandRefreshToken(user._id);
 
-    const options = {
-      httpOnly: true,
-      secure: true,
-    };
-
     return res
       .status(200)
       .cookie("accessToken", accessToken, options)
@@ -129,7 +125,7 @@ export const loginUser: RequestHandler = asyncHandler(
       .json(
         new ApiResponse(
           200,
-          { data: safeUser, accessToken, refreshToken },
+          { user: safeUser, accessToken: accessToken },
           "User logged in successfully",
         ),
       );
@@ -150,11 +146,6 @@ export const logoutUser: RequestHandler = asyncHandler(
         returnDocument: "after",
       },
     );
-
-    const options = {
-      httpOnly: true,
-      secure: true,
-    };
 
     return res
       .status(200)
@@ -252,8 +243,6 @@ export const refreshAccessToken: RequestHandler = asyncHandler(
         throw new ApiError(401, "Refresh token expired");
       }
 
-      const options = { httOnly: true, secure: true };
-
       const { accessToken, refreshToken: newRefreshToken } = await generateAccessandRefreshToken(
         user._id,
       );
@@ -282,7 +271,7 @@ export const refreshAccessToken: RequestHandler = asyncHandler(
 export const forgotPassword: RequestHandler = asyncHandler(async (req: Request, res: Response) => {
   const { email } = req.body;
 
-  const user = await User.findOne(email);
+  const user = await User.findOne({ email });
 
   if (!user) {
     throw new ApiError(404, "User not found");
@@ -300,7 +289,7 @@ export const forgotPassword: RequestHandler = asyncHandler(async (req: Request, 
     subject: "Please verify your email",
     mailGenContent: forgotPasswordMessage(
       user.userName,
-      `${req.protocol}:/${req.get("host")}/forgot-password/${unHashedToken}`,
+      `${process.env.URL!}/forgot-password/${unHashedToken}`,
     ),
   });
 

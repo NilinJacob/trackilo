@@ -2,8 +2,12 @@ import express from "express";
 import type { Express } from "express";
 import cors from "cors";
 import cookieParser from 'cookie-parser'
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger.js";
 
 const app: Express = express();
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // basic configurations
 app.use(
@@ -19,7 +23,10 @@ app.use(cookieParser())
 
 // cors configurations
 
-const origin = process.env.CROSS_ORIGIN?.split(",") || "https://localhost:5173";
+const origin = process.env.CROSS_ORIGIN?.split(",") || "http://localhost:3000";
+
+console.log(origin);
+
 
 app.use(
   cors({
